@@ -461,17 +461,24 @@ stepCheckout.addEventListener('submit', async (e) => {
   const comment = document.getElementById('fComment').value.trim();
 
   let valid = true;
-  [name, phone].forEach((f) => {
-    const ok = f.value.trim().length > 1;
-    f.classList.toggle('is-invalid', !ok);
-    if (!ok) valid = false;
-  });
+  const nameOk = name.value.trim().length > 1;
+  name.classList.toggle('is-invalid', !nameOk);
+  if (!nameOk) valid = false;
+
+  /* телефон обязателен: минимум 9 цифр (узбекский номер с кодом или без) */
+  const phoneDigits = phone.value.replace(/\D/g, '');
+  const phoneOk = phoneDigits.length >= 9 && phoneDigits.length <= 13;
+  phone.classList.toggle('is-invalid', !phoneOk);
+  if (!phoneOk) valid = false;
   if (mode === 'delivery') {
     const ok = address.value.trim().length > 3;
     address.classList.toggle('is-invalid', !ok);
     if (!ok) valid = false;
   }
-  if (!valid) { toast('Заполните обязательные поля'); return; }
+  if (!valid) {
+    toast(phoneOk ? 'Заполните обязательные поля' : 'Введите корректный номер телефона');
+    return;
+  }
   if (cartCount() === 0) { toast('Корзина пуста'); return; }
 
   const lines = Object.keys(cart).map((id) => {
