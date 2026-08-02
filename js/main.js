@@ -8,9 +8,9 @@
    Заказы получают все, кто нажал Start у @FoundersCafeeBot
    (владелец сознательно публикует токен: бот служебный). */
 const BOT_TOKEN = '8869062841:AAElNN9CqplUq-aYCwrw-YC2TLN4ANqxNbs';
-const BOT_USERNAME = 'FoundersCafeeBot';
-/* сюда можно вписать постоянные chat_id получателей, напр. [123456789] */
-const EXTRA_CHAT_IDS = [];
+/* постоянные получатели заказов — приходят всегда, даже если Telegram
+   уже не помнит недавние /start. Добавляйте сюда chat_id сотрудников. */
+const EXTRA_CHAT_IDS = [7742480056];
 
 /* ── Каталог (Яндекс Еда) ── */
 
@@ -346,14 +346,48 @@ const closeDrawer = () => {
   backdrop.hidden = true;
   document.body.style.overflow = '';
 };
-const stepDone = document.getElementById('stepDone');
+const stepStatus = document.getElementById('stepStatus');
 
 const showStep = (step) => {
   stepCart.hidden = step !== 'cart';
   stepCheckout.hidden = step !== 'checkout';
-  stepDone.hidden = step !== 'done';
-  drawerTitle.textContent = { cart: 'Корзина', checkout: 'Оформление', done: 'Готово' }[step];
+  stepStatus.hidden = step !== 'status';
+  drawerTitle.textContent = { cart: 'Корзина', checkout: 'Оформление', status: 'Заказ' }[step];
 };
+
+/* состояния экрана отправки: sending → done | error */
+let statusState = 'sending';
+let lastOrder = null;
+
+function setStatus(state) {
+  statusState = state;
+  const spinner = document.getElementById('statusSpinner');
+  const icon = document.getElementById('statusIcon');
+  const title = document.getElementById('statusTitle');
+  const textEl = document.getElementById('statusText');
+  const btn = document.getElementById('statusBtn');
+  const call = document.getElementById('statusCall');
+
+  spinner.hidden = state !== 'sending';
+  icon.hidden = state === 'sending';
+  btn.hidden = state === 'sending';
+  call.hidden = state !== 'error';
+
+  if (state === 'sending') {
+    title.textContent = 'Заказ оформляется…';
+    textEl.textContent = 'Отправляем ваш заказ в кафе, подождите пару секунд';
+  } else if (state === 'done') {
+    icon.textContent = '✅';
+    title.textContent = 'Заказ принят!';
+    textEl.textContent = `Заказ №${lastOrder.orderNo} уже у кафе. Мы перезвоним на ${lastOrder.phone} для подтверждения.`;
+    btn.textContent = 'Отлично';
+  } else {
+    icon.textContent = '⚠️';
+    title.textContent = 'Не удалось отправить';
+    textEl.textContent = 'Проверьте интернет и попробуйте ещё раз — заказ сохранён.';
+    btn.textContent = 'Попробовать снова';
+  }
+}
 
 document.getElementById('cartBtn').addEventListener('click', openDrawer);
 fabCart.addEventListener('click', openDrawer);
@@ -417,14 +451,21 @@ stepCheckout.querySelectorAll('.segmented__opt').forEach((btn) => {
 
 /* ── отправка в Telegram-бота ── */
 
-const tg = async (method, params = {}, timeoutMs = 10000) => {
-  const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params),
-    signal: AbortSignal.timeout(timeoutMs),
-  });
-  return res.json();
+/* AbortController вместо AbortSignal.timeout — работает и в старых Safari */
+const tg = async (method, params = {}, timeoutMs = 12000) => {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+      signal: ctrl.signal,
+    });
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 };
 
 /* получатели заказов: все, кто писал боту (getUpdates хранит 24 ч),
@@ -435,21 +476,23 @@ async function collectRecipients() {
     JSON.parse(localStorage.getItem('fc_chats') || '[]').forEach((id) => ids.add(id));
   } catch (e) { /* игнорируем битый кэш */ }
   try {
-    const data = await tg('getUpdates', { limit: 100, allowed_updates: ['message', 'my_chat_member'] });
+    const data = await tg('getUpdates', { limit: 100, allowed_updates: ['message', 'my_chat_member'] }, 6000);
     if (data.ok) {
       data.result.forEach((u) => {
-        const chat = u.message?.chat || u.my_chat_member?.chat;
+        const chat = (u.message && u.message.chat) || (u.my_chat_member && u.my_chat_member.chat);
         if (!chat) return;
-        if (u.my_chat_member && ['left', 'kicked'].includes(u.my_chat_member.new_chat_member?.status)) {
-          ids.delete(chat.id);
+        const status = u.my_chat_member && u.my_chat_member.new_chat_member && u.my_chat_member.new_chat_member.status;
+        if (status === 'left' || status === 'kicked') {
+          if (!EXTRA_CHAT_IDS.includes(chat.id)) ids.delete(chat.id);
           return;
         }
         ids.add(chat.id);
       });
     }
-  } catch (e) { /* сеть недоступна — используем кэш */ }
+  } catch (e) { /* getUpdates не обязателен — постоянные получатели уже в списке */ }
   const list = [...ids];
-  if (list.length) localStorage.setItem('fc_chats', JSON.stringify(list));
+  const discovered = list.filter((id) => !EXTRA_CHAT_IDS.includes(id));
+  if (discovered.length) localStorage.setItem('fc_chats', JSON.stringify(discovered));
   return list;
 }
 
@@ -499,38 +542,40 @@ stepCheckout.addEventListener('submit', async (e) => {
     comment ? `💬 ${comment}` : '',
   ].filter(Boolean).join('\n');
 
-  const submitBtn = document.getElementById('submitOrder');
-  submitBtn.classList.add('is-loading');
-  submitBtn.textContent = 'Отправляем…';
+  lastOrder = { text, orderNo, phone: phone.value.trim() };
+  showStep('status');
+  await deliverOrder();
+});
 
-  const recipients = await collectRecipients();
+/* доставка заказа в бота: постоянные получатели + все, кто нажал Start */
+async function deliverOrder() {
+  setStatus('sending');
+
   let delivered = 0;
-  if (recipients.length) {
+  try {
+    const recipients = await collectRecipients();
     const results = await Promise.allSettled(
-      recipients.map((chatId) => tg('sendMessage', { chat_id: chatId, text }))
+      recipients.map((chatId) => tg('sendMessage', { chat_id: chatId, text: lastOrder.text }))
     );
-    delivered = results.filter((r) => r.status === 'fulfilled' && r.value.ok).length;
+    delivered = results.filter((r) => r.status === 'fulfilled' && r.value && r.value.ok).length;
+  } catch (e) {
+    delivered = 0;
   }
-
-  submitBtn.classList.remove('is-loading');
-  submitBtn.textContent = 'Оформить заказ';
 
   if (delivered > 0) {
     cart = {};
     saveCart();
     syncUI();
-    document.getElementById('doneText').textContent =
-      `Заказ #${orderNo} уже у кафе. Мы перезвоним на ${phone.value.trim()} для подтверждения.`;
-    showStep('done');
+    setStatus('done');
   } else {
-    /* бот ещё никем не открыт или сеть недоступна — резервный путь */
-    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
-    window.open(`https://t.me/${BOT_USERNAME}?text=`, '_blank');
-    toast('Не удалось отправить автоматически — текст заказа скопирован, отправьте его в чат или позвоните');
+    setStatus('error');
   }
-});
+}
 
-document.getElementById('newOrder').addEventListener('click', closeDrawer);
+document.getElementById('statusBtn').addEventListener('click', () => {
+  if (statusState === 'error') deliverOrder();
+  else closeDrawer();
+});
 
 /* ═══════════ TOAST ═══════════ */
 

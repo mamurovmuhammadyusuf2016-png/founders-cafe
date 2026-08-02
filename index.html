@@ -137,13 +137,15 @@
       <p class="drawer__hint">Заказ мгновенно придёт в Telegram кафе. Мы перезвоним для подтверждения.</p>
     </form>
 
-    <!-- шаг 3: заказ отправлен -->
-    <div class="drawer__step" id="stepDone" hidden>
+    <!-- шаг 3: отправка заказа -->
+    <div class="drawer__step" id="stepStatus" hidden>
       <div class="drawer__done">
-        <span class="drawer__done-icon">✅</span>
-        <h3>Заказ отправлен!</h3>
-        <p id="doneText">Кафе уже получило ваш заказ и скоро свяжется с вами для подтверждения.</p>
-        <button type="button" class="btn btn--gold btn--wide" id="newOrder">Отлично</button>
+        <span class="spinner" id="statusSpinner"></span>
+        <span class="drawer__done-icon" id="statusIcon" hidden>✅</span>
+        <h3 id="statusTitle">Заказ оформляется…</h3>
+        <p id="statusText">Отправляем ваш заказ в кафе, подождите пару секунд</p>
+        <button type="button" class="btn btn--gold btn--wide" id="statusBtn" hidden>Отлично</button>
+        <a href="tel:+998990090105" class="btn btn--ghost btn--wide" id="statusCall" hidden>Позвонить в кафе</a>
       </div>
     </div>
   </aside>

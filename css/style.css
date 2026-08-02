@@ -671,6 +671,16 @@ input { font-family: inherit; }
 
 .btn.is-loading { opacity: .6; pointer-events: none; }
 
+.spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid rgba(217, 160, 91, .2);
+  border-top-color: var(--gold);
+  animation: spin .9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* ═══════════ TOAST ═══════════ */
 
 .toast {
