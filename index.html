@@ -3,313 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Founders Cafe — кофейня в Ташкенте · Навои 11А</title>
-  <meta name="description" content="Founders Cafe — уютная кофейня в центре Ташкента. Завтраки, стейки, пицца, паста и настольные игры. Ул. Алишера Навои, 11А. Ежедневно до 23:00.">
+  <title>Founders Cafe — заказ еды · Ташкент, Навои 11А</title>
+  <meta name="description" content="Founders Cafe — закажите завтраки, салаты, стейки, пиццу и пасту с доставкой по Ташкенту. Ул. Алишера Навои, 11А. Ежедневно до 23:00.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Manrope:wght@300;400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ══════════ PRELOADER ══════════ -->
-  <div class="preloader" id="preloader">
-    <div class="preloader__cup">
-      <div class="preloader__steam"><span></span><span></span><span></span></div>
-      <svg viewBox="0 0 64 64" width="64" height="64" fill="none">
-        <path d="M10 26h36v16a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V26Z" stroke="#d9a05b" stroke-width="3"/>
-        <path d="M46 30h4a7 7 0 0 1 0 14h-4" stroke="#d9a05b" stroke-width="3"/>
-        <path d="M8 60h44" stroke="#d9a05b" stroke-width="3" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <p class="preloader__text">Founders Cafe</p>
-  </div>
-
-  <!-- ══════════ NAVIGATION ══════════ -->
-  <header class="nav" id="nav">
-    <div class="nav__inner container">
-      <a href="#hero" class="nav__logo">
-        <span class="nav__logo-mark">☕</span>
-        <span class="nav__logo-text">Founders<em>Cafe</em></span>
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="header__logo" id="logoLink">
+        <span class="header__logo-mark">☕</span>
+        <span class="header__logo-text">Founders<em>Cafe</em></span>
       </a>
-      <nav class="nav__links" id="navLinks">
-        <a href="#about" class="nav__link">О нас</a>
-        <a href="#menu" class="nav__link">Меню</a>
-        <a href="#combo" class="nav__link">Комбо</a>
-        <a href="#reviews" class="nav__link">Отзывы</a>
-        <a href="#contacts" class="nav__link">Контакты</a>
-        <a href="tel:+998990090105" class="btn btn--small nav__cta">Забронировать</a>
-      </nav>
-      <button class="nav__burger" id="burger" aria-label="Меню">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="header__search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="search" id="searchInput" placeholder="Найти блюдо…" autocomplete="off">
+      </div>
+      <div class="header__actions">
+        <a href="tel:+998990090105" class="header__phone">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>+998 99 009 01 05</span>
+        </a>
+        <button class="cart-btn" id="cartBtn" aria-label="Корзина">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.7 8.5a2 2 0 0 1-2 1.5H9.4a2 2 0 0 1-2-1.6L5.2 3.7A1 1 0 0 0 4.2 3H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20.5" r="1.5" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.5" fill="currentColor"/></svg>
+          <span class="cart-btn__label">Корзина</span>
+          <span class="cart-btn__badge" id="cartBadge" hidden>0</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- ══════════ HERO ══════════ -->
-  <section class="hero" id="hero">
-    <div class="hero__media" id="heroMedia">
-      <img src="assets/hero.jpg" alt="Дымящаяся чашка кофе в Founders Cafe" class="hero__img" id="heroImg">
-      <div class="hero__overlay"></div>
-      <!-- Анимированный пар над чашкой -->
-      <div class="steam" aria-hidden="true">
-        <span class="steam__wisp steam__wisp--1"></span>
-        <span class="steam__wisp steam__wisp--2"></span>
-        <span class="steam__wisp steam__wisp--3"></span>
-        <span class="steam__wisp steam__wisp--4"></span>
-        <span class="steam__wisp steam__wisp--5"></span>
-      </div>
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover">
+    <img src="assets/hero.jpg" alt="Founders Cafe" class="cover__img">
+    <div class="cover__overlay"></div>
+    <div class="steam" aria-hidden="true">
+      <span class="steam__wisp steam__wisp--1"></span>
+      <span class="steam__wisp steam__wisp--2"></span>
+      <span class="steam__wisp steam__wisp--3"></span>
+      <span class="steam__wisp steam__wisp--4"></span>
     </div>
-
-    <div class="hero__content container">
-      <p class="hero__eyebrow reveal-load" style="--d:.2s">
-        <span class="hero__pin">📍</span> Ташкент · ул. Алишера Навои, 11А
-      </p>
-      <h1 class="hero__title">
-        <span class="hero__title-line reveal-load" style="--d:.35s">Founders</span>
-        <span class="hero__title-line hero__title-line--accent reveal-load" style="--d:.5s">Cafe</span>
-      </h1>
-      <p class="hero__script reveal-load" style="--d:.65s">место, где начинаются большие идеи</p>
-      <p class="hero__sub reveal-load" style="--d:.75s">
-        Ароматный кофе, сытные завтраки, стейки и настольные игры —
-        всё, что нужно основателю. И тебе тоже.
-      </p>
-      <div class="hero__actions reveal-load" style="--d:.9s">
-        <a href="#menu" class="btn btn--gold">Смотреть меню</a>
-        <a href="tel:+998990090105" class="btn btn--ghost">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          +998 99 009 01 05
-        </a>
-      </div>
-      <ul class="hero__stats reveal-load" style="--d:1.05s">
-        <li><strong>5.0</strong><span>★ Яндекс Карты</span></li>
-        <li><strong>760+</strong><span>оценок гостей</span></li>
-        <li><strong>23:00</strong><span>открыто ежедневно</span></li>
-      </ul>
-    </div>
-
-    <a href="#about" class="hero__scroll" aria-label="Листать вниз">
-      <span class="hero__scroll-wheel"></span>
-    </a>
-  </section>
-
-  <!-- ══════════ MARQUEE ══════════ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track" id="marqueeTrack">
-      <span>кофе</span><i>✦</i><span>завтраки</span><i>✦</i><span>стейки</span><i>✦</i>
-      <span>пицца</span><i>✦</i><span>паста</span><i>✦</i><span>настольные игры</span><i>✦</i>
-      <span>атмосфера</span><i>✦</i><span>доставка</span><i>✦</i>
-    </div>
-  </div>
-
-  <!-- ══════════ ABOUT ══════════ -->
-  <section class="about section" id="about">
-    <span class="section__ghost" aria-hidden="true">О нас</span>
-    <div class="container">
-      <div class="about__grid">
-        <div class="about__text">
-          <p class="section__eyebrow reveal">Про Founders Cafe</p>
-          <h2 class="section__title reveal">Кафе, в которое хочется <em>возвращаться</em></h2>
-          <p class="about__lead reveal">
-            Мы находимся в самом сердце Ташкента — на улице Алишера Навои, в двух шагах
-            от Университета Вебстер и парка Анхор. Здесь встречаются за утренним кофе,
-            обедают всей командой и засиживаются вечером за настолками.
-          </p>
-          <p class="about__lead reveal">
-            Гости ставят нам <strong>5.0 на Яндекс Картах</strong> — за интерьер,
-            атмосферу и честную кухню: от узбекской классики до стейков и пасты.
-          </p>
-          <a href="#contacts" class="btn btn--gold reveal">Как нас найти</a>
-        </div>
-        <div class="about__cards">
-          <article class="feature-card reveal" data-tilt>
-            <div class="feature-card__icon">🛋️</div>
-            <div class="feature-card__num" data-count="100" data-suffix="%">0%</div>
-            <h3>Интерьер</h3>
-            <p>гостей в восторге от нашего пространства</p>
-          </article>
-          <article class="feature-card reveal" data-tilt>
-            <div class="feature-card__icon">✨</div>
-            <div class="feature-card__num" data-count="96" data-suffix="%">0%</div>
-            <h3>Атмосфера</h3>
-            <p>отмечают особый уют и настроение</p>
-          </article>
-          <article class="feature-card reveal" data-tilt>
-            <div class="feature-card__icon">☕</div>
-            <div class="feature-card__num" data-count="83" data-suffix="%">0%</div>
-            <h3>Кофе</h3>
-            <p>хвалят наш кофе и напитки</p>
-          </article>
-          <article class="feature-card reveal" data-tilt>
-            <div class="feature-card__icon">🎲</div>
-            <div class="feature-card__num">∞</div>
-            <h3>Настолки</h3>
-            <p>играй сколько хочешь — игры уже на столах</p>
-          </article>
-        </div>
-      </div>
-    </div>
-    <span class="bean bean--1" aria-hidden="true"></span>
-    <span class="bean bean--2" aria-hidden="true"></span>
-    <span class="bean bean--3" aria-hidden="true"></span>
-  </section>
-
-  <!-- ══════════ MENU ══════════ -->
-  <section class="menu section section--alt" id="menu">
-    <span class="section__ghost" aria-hidden="true">Меню</span>
-    <div class="container">
-      <p class="section__eyebrow reveal">Что попробовать</p>
-      <h2 class="section__title reveal">Наше <em>меню</em></h2>
-      <p class="menu__note reveal">Меню доставки с Яндекс Еды — в кафе блюда и цены могут немного отличаться.</p>
-
-      <div class="menu__tabs reveal" id="menuTabs" role="tablist"></div>
-      <div class="menu__grid" id="menuGrid"></div>
-    </div>
-  </section>
-
-  <!-- ══════════ COMBO ══════════ -->
-  <section class="combo section" id="combo">
-    <span class="section__ghost" aria-hidden="true">Комбо</span>
-    <div class="container">
-      <p class="section__eyebrow reveal">Выгодно и вкусно</p>
-      <h2 class="section__title reveal">Комбо <em>основателя</em></h2>
-      <div class="combo__grid">
-        <article class="combo-card reveal" data-tilt>
-          <div class="combo-card__media">
-            <img src="assets/menu/poleznoe-nachalo.jpg" alt="Комбо «Полезное начало»" loading="lazy" width="400" height="300">
-          </div>
-          <div class="combo-card__badge">хит</div>
-          <span class="combo-card__emoji">🌅</span>
-          <h3>Полезное начало</h3>
-          <p>Любимый завтрак основателя — блины с творогом, каша и свежий напиток. Идеальный старт дня.</p>
-          <div class="combo-card__meta">
-            <span class="combo-card__price">65 000 <i>сум</i></span>
-            <span class="combo-card__weight">600 г</span>
-          </div>
-        </article>
-        <article class="combo-card reveal" data-tilt>
-          <div class="combo-card__media">
-            <img src="assets/menu/obed-osnovatelya.jpg" alt="Комбо «Обед основателя»" loading="lazy" width="400" height="300">
-          </div>
-          <div class="combo-card__badge combo-card__badge--gold">выбор шефа</div>
-          <span class="combo-card__emoji">🍲</span>
-          <h3>Обед основателя</h3>
-          <p>Куриный суп, горячее и холодный напиток — полноценный обед, после которого хочется творить.</p>
-          <div class="combo-card__meta">
-            <span class="combo-card__price">65 000 <i>сум</i></span>
-            <span class="combo-card__weight">750 г</span>
-          </div>
-        </article>
+    <div class="container cover__content">
+      <h1 class="cover__title">Founders Cafe</h1>
+      <div class="cover__chips">
+        <span class="chip chip--gold">★ 5.0</span>
+        <span class="chip">до 23:00</span>
+        <span class="chip">Навои, 11А</span>
+        <a class="chip chip--link" href="https://yandex.uz/maps/org/founders_cafe/14984117749/" target="_blank" rel="noopener">Яндекс Карты ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ REVIEWS ══════════ -->
-  <section class="reviews section section--alt" id="reviews">
-    <span class="section__ghost" aria-hidden="true">Отзывы</span>
-    <div class="container">
-      <div class="reviews__grid">
-        <div class="reviews__score reveal" data-tilt>
-          <div class="reviews__big">5.0</div>
-          <div class="reviews__stars">★★★★★</div>
-          <p>рейтинг на Яндекс Картах</p>
-          <div class="reviews__counts"><strong>760+</strong> оценок · <strong>239</strong> отзывов · <strong>70</strong> фото</div>
-          <a class="btn btn--ghost" href="https://yandex.uz/maps/org/founders_cafe/14984117749/" target="_blank" rel="noopener">Читать отзывы</a>
-        </div>
-        <div class="reviews__bars">
-          <p class="section__eyebrow reveal">За что нас любят</p>
-          <h2 class="section__title reveal">Гости <em>говорят</em></h2>
-          <div class="bar reveal">
-            <div class="bar__label"><span>Интерьер</span><b>100%</b></div>
-            <div class="bar__track"><div class="bar__fill" data-width="100"></div></div>
-          </div>
-          <div class="bar reveal">
-            <div class="bar__label"><span>Атмосфера</span><b>96%</b></div>
-            <div class="bar__track"><div class="bar__fill" data-width="96"></div></div>
-          </div>
-          <div class="bar reveal">
-            <div class="bar__label"><span>Кофе и напитки</span><b>83%</b></div>
-            <div class="bar__track"><div class="bar__fill" data-width="83"></div></div>
-          </div>
-          <blockquote class="reviews__quote reveal">
-            «Кафе с настольными играми, особенной атмосферой и вкусной кухней»
-            <cite>— Яндекс Карты</cite>
-          </blockquote>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- ══════════ CATEGORY NAV ══════════ -->
+  <nav class="catnav" id="catnav">
+    <div class="container catnav__scroll" id="catnavScroll"></div>
+  </nav>
 
-  <!-- ══════════ CONTACTS ══════════ -->
-  <section class="contacts section" id="contacts">
-    <span class="section__ghost" aria-hidden="true">Контакты</span>
-    <div class="container">
-      <p class="section__eyebrow reveal">Ждём в гости</p>
-      <h2 class="section__title reveal">Как нас <em>найти</em></h2>
-      <div class="contacts__grid">
-        <div class="contacts__info">
-          <div class="contact-row reveal">
-            <span class="contact-row__icon">📍</span>
-            <div>
-              <h3>Адрес</h3>
-              <p>Ташкент, ул. Алишера Навои, 11А<br><small>рядом с Университетом Вебстер и парком Анхор · 760 м от метро «Алишер Навои»</small></p>
-            </div>
-          </div>
-          <div class="contact-row reveal">
-            <span class="contact-row__icon">🕚</span>
-            <div>
-              <h3>Часы работы</h3>
-              <p>Ежедневно до 23:00</p>
-            </div>
-          </div>
-          <div class="contact-row reveal">
-            <span class="contact-row__icon">📞</span>
-            <div>
-              <h3>Телефон</h3>
-              <p><a href="tel:+998990090105">+998 99 009 01 05</a></p>
-            </div>
-          </div>
-          <div class="contact-row reveal">
-            <span class="contact-row__icon">📸</span>
-            <div>
-              <h3>Instagram</h3>
-              <p><a href="https://instagram.com/founders_cafe" target="_blank" rel="noopener">@founders_cafe</a></p>
-            </div>
-          </div>
-          <div class="contacts__actions reveal">
-            <a href="tel:+998990090105" class="btn btn--gold">Забронировать столик</a>
-            <a href="https://yandex.uz/maps/org/founders_cafe/14984117749/" target="_blank" rel="noopener" class="btn btn--ghost">Открыть в Яндекс Картах</a>
-          </div>
-        </div>
-        <a href="https://yandex.uz/maps/org/founders_cafe/14984117749/" target="_blank" rel="noopener" class="contacts__map reveal" data-tilt>
-          <div class="contacts__map-pin">
-            <span class="contacts__map-dot"></span>
-            <span class="contacts__map-pulse"></span>
-          </div>
-          <div class="contacts__map-card">
-            <strong>Founders Cafe</strong>
-            <span>ул. Алишера Навои, 11А</span>
-            <em>построить маршрут →</em>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- ══════════ CATALOG ══════════ -->
+  <main class="catalog container" id="catalog"></main>
+
+  <p class="catalog__empty" id="emptySearch" hidden>Ничего не нашлось 😔 Попробуйте другой запрос</p>
 
   <!-- ══════════ FOOTER ══════════ -->
   <footer class="footer">
     <div class="container footer__inner">
-      <a href="#hero" class="nav__logo">
-        <span class="nav__logo-mark">☕</span>
-        <span class="nav__logo-text">Founders<em>Cafe</em></span>
-      </a>
-      <p class="footer__tagline">место, где начинаются большие идеи</p>
-      <p class="footer__copy">© <span id="year"></span> Founders Cafe · Ташкент, ул. Алишера Навои, 11А</p>
+      <span>© <span id="year"></span> Founders Cafe · Ташкент, ул. Алишера Навои, 11А · ежедневно до 23:00</span>
+      <span class="footer__links">
+        <a href="tel:+998990090105">+998 99 009 01 05</a> ·
+        <a href="https://instagram.com/founders_cafe" target="_blank" rel="noopener">Instagram</a> ·
+        <a href="https://yandex.uz/maps/org/founders_cafe/14984117749/" target="_blank" rel="noopener">Яндекс Карты</a>
+      </span>
     </div>
   </footer>
 
-  <button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+  <!-- ══════════ FLOATING CART (mobile) ══════════ -->
+  <button class="fab-cart" id="fabCart" hidden>
+    <span id="fabCount">0 позиций</span>
+    <strong id="fabTotal">0 сум</strong>
+  </button>
+
+  <!-- ══════════ CART DRAWER ══════════ -->
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Корзина">
+    <div class="drawer__head">
+      <h2 id="drawerTitle">Корзина</h2>
+      <button class="drawer__close" id="drawerClose" aria-label="Закрыть">✕</button>
+    </div>
+
+    <!-- шаг 1: состав заказа -->
+    <div class="drawer__step" id="stepCart">
+      <div class="drawer__items" id="cartItems"></div>
+      <p class="drawer__empty" id="cartEmpty">В корзине пока пусто.<br>Добавьте что-нибудь вкусное 😋</p>
+      <div class="drawer__foot" id="cartFoot" hidden>
+        <div class="drawer__total"><span>Итого</span><strong id="cartTotal">0 сум</strong></div>
+        <button class="btn btn--gold btn--wide" id="toCheckout">Оформить заказ</button>
+      </div>
+    </div>
+
+    <!-- шаг 2: оформление -->
+    <form class="drawer__step" id="stepCheckout" hidden>
+      <label class="field">
+        <span>Имя</span>
+        <input type="text" id="fName" placeholder="Как к вам обращаться" required>
+      </label>
+      <label class="field">
+        <span>Телефон</span>
+        <input type="tel" id="fPhone" placeholder="+998 __ ___ __ __" required>
+      </label>
+      <div class="field">
+        <span>Получение</span>
+        <div class="segmented">
+          <button type="button" class="segmented__opt is-active" data-mode="delivery">🛵 Доставка</button>
+          <button type="button" class="segmented__opt" data-mode="pickup">🏃 Самовывоз</button>
+        </div>
+      </div>
+      <label class="field" id="addressField">
+        <span>Адрес доставки</span>
+        <input type="text" id="fAddress" placeholder="Улица, дом, подъезд">
+      </label>
+      <label class="field">
+        <span>Комментарий</span>
+        <input type="text" id="fComment" placeholder="Необязательно">
+      </label>
+      <div class="drawer__total"><span>Итого</span><strong id="checkoutTotal">0 сум</strong></div>
+      <button type="submit" class="btn btn--gold btn--wide">Отправить заказ в Telegram</button>
+      <a href="tel:+998990090105" class="btn btn--ghost btn--wide">Или позвонить: +998 99 009 01 05</a>
+      <button type="button" class="drawer__back" id="backToCart">← Назад к корзине</button>
+      <p class="drawer__hint">Заказ откроется в Telegram готовым сообщением — просто выберите чат кафе и отправьте. Текст заказа мы также скопируем в буфер обмена.</p>
+    </form>
+  </aside>
+
+  <div class="toast" id="toast" hidden></div>
 
   <script src="js/main.js"></script>
 </body>

@@ -1,110 +1,117 @@
 /* ═══════════════════════════════════════════
-   FOUNDERS CAFE — interactions
+   FOUNDERS CAFE — ordering platform
    ═══════════════════════════════════════════ */
 
 'use strict';
 
-/* ── Данные меню (Яндекс Еда / Яндекс Карты) ── */
+/* ── Каталог (Яндекс Еда) ── */
 
 const MENU = {
+  combo: {
+    label: 'Комбо',
+    emoji: '🎁',
+    items: [
+      { name: 'Обед основателя', price: 65000, weight: '750 г', img: 'obed-osnovatelya.jpg' },
+      { name: 'Полезное начало', price: 65000, weight: '600 г', img: 'poleznoe-nachalo.jpg' },
+    ],
+  },
   breakfast: {
     label: 'Завтраки',
     emoji: '🍳',
     items: [
-      { name: 'Английский завтрак', price: 75000, weight: '450 г', desc: 'Два яйца, сосиски барбекю и всё, что нужно для бодрого утра', img: 'anglijskij-zavtrak.jpg' },
-      { name: 'Полезное начало', price: 65000, weight: '600 г', desc: 'Любимый завтрак основателя: блины с творогом и каша', img: 'poleznoe-nachalo.jpg' },
-      { name: 'Оладьи', price: 40000, weight: '300 г', desc: 'Пышные, с золотистой корочкой по краям', img: 'oladi.jpg' },
-      { name: 'Беляши с фаршем', price: 60000, weight: '350 г', desc: 'Румяные, слегка хрустящие, с сочной начинкой', img: 'belyashi-s-farshem.jpg' },
-      { name: 'Беляши с творогом', price: 47000, weight: '350 г', desc: 'Мягкая, пышная основа и нежный творог', img: 'belyashi-s-tvorogom.jpg' },
-      { name: 'Овсяная каша', price: 32000, weight: '250 г', desc: 'Нежная, кремовая текстура', img: 'ovsyanaya-kasha.jpg' },
-      { name: 'Рисовая каша', price: 32000, weight: '250 г', desc: 'Мягкая и однородная, как в детстве', img: 'risovaya-kasha.jpg' },
-      { name: 'Манная каша', price: 32000, weight: '250 г', desc: 'Гладкая, нежная, без комочков', img: 'mannaya-kasha.jpg' },
+      { name: 'Английский завтрак', price: 75000, weight: '450 г', img: 'anglijskij-zavtrak.jpg' },
+      { name: 'Оладьи', price: 40000, weight: '300 г', img: 'oladi.jpg' },
+      { name: 'Беляши с фаршем', price: 60000, weight: '350 г', img: 'belyashi-s-farshem.jpg' },
+      { name: 'Беляши с творогом', price: 47000, weight: '350 г', img: 'belyashi-s-tvorogom.jpg' },
+      { name: 'Овсяная каша', price: 32000, weight: '250 г', img: 'ovsyanaya-kasha.jpg' },
+      { name: 'Рисовая каша', price: 32000, weight: '250 г', img: 'risovaya-kasha.jpg' },
+      { name: 'Манная каша', price: 32000, weight: '250 г', img: 'mannaya-kasha.jpg' },
     ],
   },
   salads: {
     label: 'Салаты',
     emoji: '🥗',
     items: [
-      { name: 'Фаундерс салат', price: 65000, weight: '300 г', desc: 'Фирменный сытный мясной салат — визитка кафе', img: 'faunders-salat.jpg' },
-      { name: 'Цезарь', price: 70000, weight: '400 г', desc: 'Хруст листьев романо и нежная заправка', img: 'cezar.jpg' },
-      { name: 'Греческий салат', price: 80000, weight: '400 г', desc: 'Свежий, яркий вкус с лёгкой кислинкой', img: 'grecheskij-salat.jpg' },
-      { name: 'Хрустящие баклажаны', price: 60000, weight: '400 г', desc: 'Золотистая хрустящая корочка', img: 'hrustyaschie-baklazhany.jpg' },
-      { name: 'Французский салат', price: 60000, weight: '350 г', desc: 'Нежная свёкла и сочное яблоко', img: 'francuzskij-salat.jpg' },
-      { name: 'Мужской каприз', price: 60000, weight: '400 г', desc: 'Классический сытный салат с мясным характером', img: 'muzhskoj-kapriz.jpg' },
-      { name: 'Оливье', price: 52000, weight: '300 г', desc: 'Сбалансированный вкус, знакомый каждому', img: 'olive.jpg' },
-      { name: 'Смак', price: 45000, weight: '350 г', desc: 'Традиционный сытный салат', img: 'smak.jpg' },
-      { name: 'Чирокчи', price: 42000, weight: '400 г', desc: 'Традиционный сытный салат', img: 'chirokchi.jpg' },
-      { name: 'Ачик-чучук', price: 30000, weight: '275 г', desc: 'Свежие помидоры и лук — ярко и освежающе', img: 'achik-chuchuk.jpg' },
+      { name: 'Фаундерс салат', price: 65000, weight: '300 г', img: 'faunders-salat.jpg' },
+      { name: 'Цезарь', price: 70000, weight: '400 г', img: 'cezar.jpg' },
+      { name: 'Греческий салат', price: 80000, weight: '400 г', img: 'grecheskij-salat.jpg' },
+      { name: 'Хрустящие баклажаны', price: 60000, weight: '400 г', img: 'hrustyaschie-baklazhany.jpg' },
+      { name: 'Французский салат', price: 60000, weight: '350 г', img: 'francuzskij-salat.jpg' },
+      { name: 'Мужской каприз', price: 60000, weight: '400 г', img: 'muzhskoj-kapriz.jpg' },
+      { name: 'Оливье', price: 52000, weight: '300 г', img: 'olive.jpg' },
+      { name: 'Смак', price: 45000, weight: '350 г', img: 'smak.jpg' },
+      { name: 'Чирокчи', price: 42000, weight: '400 г', img: 'chirokchi.jpg' },
+      { name: 'Ачик-чучук', price: 30000, weight: '275 г', img: 'achik-chuchuk.jpg' },
     ],
   },
   soups: {
     label: 'Супы',
     emoji: '🍜',
     items: [
-      { name: 'Шурпа', price: 55000, weight: '350 г', desc: 'Насыщенный мясной вкус и глубокий аромат', img: 'shurpa.jpg' },
-      { name: 'Мастава', price: 47000, weight: '350 г', desc: 'Густой суп с насыщенным вкусом', img: 'mastava.jpg' },
-      { name: 'Куриный суп', price: 40000, weight: '350 г', desc: 'Лёгкий, прозрачный бульон', img: 'kurinyj-sup.jpg' },
-      { name: 'Чечевичный суп', price: 40000, weight: '350 г', desc: 'Плотная, бархатистая текстура', img: 'chechevichnyj-sup.jpg' },
-      { name: 'Суп с фрикадельками', price: 40000, weight: '350 г', desc: 'Лёгкий и сытный домашний суп', img: 'frikadelki.jpg' },
+      { name: 'Шурпа', price: 55000, weight: '350 г', img: 'shurpa.jpg' },
+      { name: 'Мастава', price: 47000, weight: '350 г', img: 'mastava.jpg' },
+      { name: 'Куриный суп', price: 40000, weight: '350 г', img: 'kurinyj-sup.jpg' },
+      { name: 'Чечевичный суп', price: 40000, weight: '350 г', img: 'chechevichnyj-sup.jpg' },
+      { name: 'Суп с фрикадельками', price: 40000, weight: '350 г', img: 'frikadelki.jpg' },
     ],
   },
   hot: {
     label: 'Горячее',
     emoji: '🍖',
     items: [
-      { name: 'Блюдо от шефа', price: 87000, weight: '350 г', desc: 'Авторское блюдо с нежной телятиной', img: 'blyudo-ot-shefa.jpg' },
-      { name: 'Телятина с грибами', price: 85000, weight: '400 г', desc: 'Насыщенный вкус телятины и грибов', img: 'telyatina-s-gribami.jpg' },
-      { name: 'Бефстроганов', price: 79000, weight: '450 г', desc: 'Тонкие полоски мяса в нежном соусе', img: 'befstroganov.jpg' },
-      { name: 'Манты', price: 75000, weight: '400 г', desc: 'Сочная начинка и тонкое тесто', img: 'manty.jpg' },
-      { name: 'Курица с грибами', price: 65000, weight: '350 г', desc: 'Мягкий, сбалансированный вкус', img: 'kurica-s-gribami.jpg' },
-      { name: 'Бифштекс говяжий', price: 58000, weight: '450 г', desc: 'Плотная, но нежная текстура', img: 'bifshteks-govyazhij.jpg' },
-      { name: 'Бифштекс куриный', price: 54000, weight: '450 г', desc: 'Нежная текстура и лёгкий вкус', img: 'bifshteks-kurinyj.jpg' },
-      { name: 'Дульма', price: 54000, weight: '350 г', desc: 'Традиционное блюдо в виноградных листьях', img: 'dulma.jpg' },
+      { name: 'Блюдо от шефа', price: 87000, weight: '350 г', img: 'blyudo-ot-shefa.jpg' },
+      { name: 'Телятина с грибами', price: 85000, weight: '400 г', img: 'telyatina-s-gribami.jpg' },
+      { name: 'Бефстроганов', price: 79000, weight: '450 г', img: 'befstroganov.jpg' },
+      { name: 'Манты', price: 75000, weight: '400 г', img: 'manty.jpg' },
+      { name: 'Курица с грибами', price: 65000, weight: '350 г', img: 'kurica-s-gribami.jpg' },
+      { name: 'Бифштекс говяжий', price: 58000, weight: '450 г', img: 'bifshteks-govyazhij.jpg' },
+      { name: 'Бифштекс куриный', price: 54000, weight: '450 г', img: 'bifshteks-kurinyj.jpg' },
+      { name: 'Дульма', price: 54000, weight: '350 г', img: 'dulma.jpg' },
     ],
   },
   steaks: {
     label: 'Стейки',
     emoji: '🥩',
     items: [
-      { name: 'Медальоны', price: 170000, weight: '400 г', desc: 'Нежнейшие медальоны из отборной говядины', img: 'medalony.jpg' },
-      { name: 'Стейк бон-филе', price: 170000, weight: '400 г', desc: 'Нежная, однородная текстура', img: 'stejk-bon-file.jpg' },
-      { name: 'Стейк из куриного филе', price: 120000, weight: '400 г', desc: 'Нежный, но упругий — для лёгкого ужина', img: 'stejk-iz-kurinogo-file.jpg' },
+      { name: 'Медальоны', price: 170000, weight: '400 г', img: 'medalony.jpg' },
+      { name: 'Стейк бон-филе', price: 170000, weight: '400 г', img: 'stejk-bon-file.jpg' },
+      { name: 'Стейк из куриного филе', price: 120000, weight: '400 г', img: 'stejk-iz-kurinogo-file.jpg' },
     ],
   },
   pizza: {
     label: 'Пицца',
     emoji: '🍕',
     items: [
-      { name: 'Пицца от шефа', price: 130000, weight: '500 г', desc: 'Тонкое тесто с хрустящей корочкой', img: 'picca-ot-shefa.jpg' },
-      { name: 'Мексиканская', price: 120000, weight: '500 г', desc: 'Остро, ярко, по-мексикански', img: 'meksikanskaya-picca.jpg' },
-      { name: 'Пепперони', price: 105000, weight: '500 г', desc: 'Тонкое хрустящее тесто и пикантная пепперони', img: 'pepperoni.jpg' },
-      { name: 'Маргарита', price: 95000, weight: '500 г', desc: 'Классика на тонком тесте', img: 'margarita.jpg' },
+      { name: 'Пицца от шефа', price: 130000, weight: '500 г', img: 'picca-ot-shefa.jpg' },
+      { name: 'Мексиканская', price: 120000, weight: '500 г', img: 'meksikanskaya-picca.jpg' },
+      { name: 'Пепперони', price: 105000, weight: '500 г', img: 'pepperoni.jpg' },
+      { name: 'Маргарита', price: 95000, weight: '500 г', img: 'margarita.jpg' },
     ],
   },
   burgers: {
     label: 'Бургеры',
     emoji: '🍔',
     items: [
-      { name: 'Бургер с говядиной', price: 72000, weight: '350 г', desc: 'Сочная котлета из рубленой говядины', img: 'burger-s-govyadinoj.jpg' },
-      { name: 'Клаб-сэндвич', price: 65000, weight: '400 г', desc: 'Три ломтика поджаренного хлеба и щедрая начинка', img: 'klab-sendvich.jpg' },
-      { name: 'Бургер с курицей', price: 62000, weight: '350 г', desc: 'Нежная куриная котлета', img: 'burger-s-kuricej.jpg' },
+      { name: 'Бургер с говядиной', price: 72000, weight: '350 г', img: 'burger-s-govyadinoj.jpg' },
+      { name: 'Клаб-сэндвич', price: 65000, weight: '400 г', img: 'klab-sendvich.jpg' },
+      { name: 'Бургер с курицей', price: 62000, weight: '350 г', img: 'burger-s-kuricej.jpg' },
     ],
   },
   pasta: {
     label: 'Паста',
     emoji: '🍝',
     items: [
-      { name: 'Альфредо', price: 87000, weight: '350 г', desc: 'Сливочный соус с бархатистой текстурой', img: 'alfredo.jpg' },
-      { name: 'Карбонара', price: 79000, weight: '350 г', desc: 'Насыщенный сливочный вкус', img: 'karbonara.jpg' },
-      { name: 'Болоньезе', price: 79000, weight: '350 г', desc: 'Густой мясной соус', img: 'boloneze.jpg' },
+      { name: 'Альфредо', price: 87000, weight: '350 г', img: 'alfredo.jpg' },
+      { name: 'Карбонара', price: 79000, weight: '350 г', img: 'karbonara.jpg' },
+      { name: 'Болоньезе', price: 79000, weight: '350 г', img: 'boloneze.jpg' },
     ],
   },
   sides: {
     label: 'Гарниры',
     emoji: '🍟',
     items: [
-      { name: 'Картофель по-деревенски', price: 30000, weight: '150 г', desc: 'Дольки со специями', img: 'kartofel-po-derevenski.jpg' },
-      { name: 'Картофель фри', price: 25000, weight: '150 г', desc: 'Золотистая хрустящая корочка', img: 'kartofel-fri.jpg' },
+      { name: 'Картофель по-деревенски', price: 30000, weight: '150 г', img: 'kartofel-po-derevenski.jpg' },
+      { name: 'Картофель фри', price: 25000, weight: '150 г', img: 'kartofel-fri.jpg' },
       { name: 'Картофельное пюре', price: 20000, weight: '150 г', img: 'pyure.jpg' },
       { name: 'Гречка', price: 20000, weight: '150 г' },
       { name: 'Рис', price: 20000, weight: '150 г' },
@@ -123,205 +130,337 @@ const MENU = {
   },
 };
 
-const fmtPrice = (n) => n.toLocaleString('ru-RU').replace(/,/g, ' ') + ' сум';
-
-/* ── Preloader ── */
-
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('preloader').classList.add('is-done'), 600);
+/* индекс товаров: id → товар */
+const PRODUCTS = {};
+Object.entries(MENU).forEach(([catKey, cat]) => {
+  cat.items.forEach((item, i) => {
+    const id = `${catKey}-${i}`;
+    PRODUCTS[id] = { ...item, id, catKey, emoji: cat.emoji };
+  });
 });
 
-/* ── Навигация ── */
+const fmt = (n) => n.toLocaleString('ru-RU').replace(/,/g, ' ') + ' сум';
 
-const nav = document.getElementById('nav');
-const burger = document.getElementById('burger');
-const navLinks = document.getElementById('navLinks');
-const toTop = document.getElementById('toTop');
+/* ═══════════ КОРЗИНА (localStorage) ═══════════ */
 
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('is-scrolled', window.scrollY > 40);
-  toTop.classList.toggle('is-visible', window.scrollY > 700);
-}, { passive: true });
+let cart = {};
+try {
+  const saved = JSON.parse(localStorage.getItem('fc_cart') || '{}');
+  Object.keys(saved).forEach((id) => { if (PRODUCTS[id]) cart[id] = saved[id]; });
+} catch (e) { /* повреждённое хранилище — начинаем с пустой корзины */ }
 
-burger.addEventListener('click', () => {
-  burger.classList.toggle('is-open');
-  navLinks.classList.toggle('is-open');
-});
+const saveCart = () => localStorage.setItem('fc_cart', JSON.stringify(cart));
+const cartCount = () => Object.values(cart).reduce((s, q) => s + q, 0);
+const cartTotal = () => Object.entries(cart).reduce((s, [id, q]) => s + PRODUCTS[id].price * q, 0);
 
-navLinks.querySelectorAll('a').forEach((a) =>
-  a.addEventListener('click', () => {
-    burger.classList.remove('is-open');
-    navLinks.classList.remove('is-open');
-  })
-);
+const setQty = (id, qty) => {
+  if (qty <= 0) delete cart[id];
+  else cart[id] = qty;
+  saveCart();
+  syncUI(id);
+};
 
-toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+/* ═══════════ РЕНДЕР КАТАЛОГА ═══════════ */
 
-/* ── Параллакс hero (мышь + скролл) ── */
+const catalog = document.getElementById('catalog');
+const catnavScroll = document.getElementById('catnavScroll');
 
-const heroImg = document.getElementById('heroImg');
-const hero = document.getElementById('hero');
-const finePointer = window.matchMedia('(pointer: fine)').matches;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const productControls = (id) => {
+  const qty = cart[id] || 0;
+  return qty === 0
+    ? `<button class="product__add" data-add="${id}" aria-label="Добавить">+</button>`
+    : `<div class="stepper">
+         <button data-dec="${id}" aria-label="Убрать">−</button>
+         <span>${qty}</span>
+         <button data-inc="${id}" aria-label="Добавить">+</button>
+       </div>`;
+};
 
-if (finePointer && !reducedMotion) {
-  let raf = null;
-  hero.addEventListener('mousemove', (e) => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 18;
-      const y = (e.clientY / window.innerHeight - 0.5) * 12;
-      heroImg.style.transform = `scale(1.08) translate(${-x}px, ${-y}px)`;
-      raf = null;
+const renderCatalog = () => {
+  catnavScroll.innerHTML = Object.entries(MENU)
+    .map(([key, cat]) => `<button class="catnav__link" data-target="${key}">${cat.emoji} ${cat.label}</button>`)
+    .join('');
+
+  catalog.innerHTML = Object.entries(MENU)
+    .map(([catKey, cat]) => `
+      <section class="cat-section" id="cat-${catKey}" data-cat="${catKey}">
+        <h2 class="cat-section__title">${cat.emoji} ${cat.label} <small>${cat.items.length}</small></h2>
+        <div class="cat-grid">
+          ${cat.items.map((item, i) => {
+            const id = `${catKey}-${i}`;
+            return `
+            <article class="product" data-product="${id}" data-name="${item.name.toLowerCase()}">
+              ${item.img
+                ? `<div class="product__media"><img src="assets/menu/${item.img}" alt="${item.name}" loading="lazy" width="400" height="300"></div>`
+                : `<div class="product__media product__media--emoji">${cat.emoji}</div>`}
+              <div class="product__body">
+                <h3 class="product__name">${item.name}</h3>
+                <span class="product__weight">${item.weight}</span>
+                <div class="product__foot">
+                  <span class="product__price">${fmt(item.price)}</span>
+                  <span class="product__controls" data-controls="${id}">${productControls(id)}</span>
+                </div>
+              </div>
+            </article>`;
+          }).join('')}
+        </div>
+      </section>`)
+    .join('');
+};
+
+renderCatalog();
+
+/* ═══════════ СИНХРОНИЗАЦИЯ UI ═══════════ */
+
+const cartBadge = document.getElementById('cartBadge');
+const fabCart = document.getElementById('fabCart');
+const fabCount = document.getElementById('fabCount');
+const fabTotal = document.getElementById('fabTotal');
+
+const plural = (n) => {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return `${n} позиция`;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return `${n} позиции`;
+  return `${n} позиций`;
+};
+
+function syncUI(changedId) {
+  const count = cartCount();
+  cartBadge.hidden = count === 0;
+  cartBadge.textContent = count;
+
+  fabCart.classList.toggle('is-shown', count > 0);
+  fabCart.hidden = count === 0;
+  fabCount.textContent = plural(count);
+  fabTotal.textContent = fmt(cartTotal());
+
+  if (changedId) {
+    const holder = document.querySelector(`[data-controls="${changedId}"]`);
+    if (holder) holder.innerHTML = productControls(changedId);
+  } else {
+    document.querySelectorAll('[data-controls]').forEach((holder) => {
+      holder.innerHTML = productControls(holder.dataset.controls);
     });
-  });
-  hero.addEventListener('mouseleave', () => {
-    heroImg.style.transform = 'scale(1.08)';
-  });
+  }
+
+  renderCartItems();
 }
 
-/* ── 3D tilt карточки ── */
+/* ═══════════ КЛИКИ ПО КАТАЛОГУ ═══════════ */
 
-if (finePointer && !reducedMotion) {
-  const bindTilt = (el) => {
-    let raf = null;
-    el.addEventListener('mousemove', (e) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform = `perspective(900px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg) translateY(-4px)`;
-        raf = null;
+document.addEventListener('click', (e) => {
+  const add = e.target.closest('[data-add]');
+  const inc = e.target.closest('[data-inc]');
+  const dec = e.target.closest('[data-dec]');
+  if (add) { setQty(add.dataset.add, 1); toast('Добавлено в корзину ✓'); }
+  if (inc) setQty(inc.dataset.inc, (cart[inc.dataset.inc] || 0) + 1);
+  if (dec) setQty(dec.dataset.dec, (cart[dec.dataset.dec] || 0) - 1);
+});
+
+/* ═══════════ НАВИГАЦИЯ ПО КАТЕГОРИЯМ ═══════════ */
+
+const header = document.getElementById('header');
+const catnav = document.getElementById('catnav');
+
+catnavScroll.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-target]');
+  if (!btn) return;
+  const section = document.getElementById(`cat-${btn.dataset.target}`);
+  if (!section) return;
+  const offset = header.offsetHeight + catnav.offsetHeight + 6;
+  window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+});
+
+/* scrollspy: подсвечиваем активную категорию */
+const spy = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const key = entry.target.dataset.cat;
+      catnavScroll.querySelectorAll('.catnav__link').forEach((l) => {
+        const active = l.dataset.target === key;
+        l.classList.toggle('is-active', active);
+        if (active) l.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
       });
     });
-    el.addEventListener('mouseleave', () => {
-      el.style.transition = 'transform .6s cubic-bezier(.22,1,.36,1)';
-      el.style.transform = '';
-      setTimeout(() => (el.style.transition = ''), 600);
+  },
+  { rootMargin: '-30% 0px -60% 0px' }
+);
+document.querySelectorAll('.cat-section').forEach((s) => spy.observe(s));
+
+document.getElementById('logoLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ═══════════ ПОИСК ═══════════ */
+
+const searchInput = document.getElementById('searchInput');
+const emptySearch = document.getElementById('emptySearch');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('.cat-section').forEach((section) => {
+    let sectionVisible = false;
+    section.querySelectorAll('.product').forEach((card) => {
+      const match = !q || card.dataset.name.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) sectionVisible = true;
     });
-  };
-  document.querySelectorAll('[data-tilt]').forEach(bindTilt);
-  // карточки меню создаются динамически — вешаем tilt через делегирование
-  window.__bindTilt = bindTilt;
+    section.style.display = sectionVisible ? '' : 'none';
+    if (sectionVisible) anyVisible = true;
+  });
+  emptySearch.hidden = anyVisible;
+});
+
+/* ═══════════ КОРЗИНА: DRAWER ═══════════ */
+
+const drawer = document.getElementById('drawer');
+const backdrop = document.getElementById('drawerBackdrop');
+const drawerTitle = document.getElementById('drawerTitle');
+const stepCart = document.getElementById('stepCart');
+const stepCheckout = document.getElementById('stepCheckout');
+const cartItemsEl = document.getElementById('cartItems');
+const cartEmpty = document.getElementById('cartEmpty');
+const cartFoot = document.getElementById('cartFoot');
+const cartTotalEl = document.getElementById('cartTotal');
+const checkoutTotalEl = document.getElementById('checkoutTotal');
+
+const openDrawer = () => {
+  showStep('cart');
+  drawer.classList.add('is-open');
+  backdrop.hidden = false;
+  document.body.style.overflow = 'hidden';
+};
+const closeDrawer = () => {
+  drawer.classList.remove('is-open');
+  backdrop.hidden = true;
+  document.body.style.overflow = '';
+};
+const showStep = (step) => {
+  const checkout = step === 'checkout';
+  stepCart.hidden = checkout;
+  stepCheckout.hidden = !checkout;
+  drawerTitle.textContent = checkout ? 'Оформление' : 'Корзина';
+};
+
+document.getElementById('cartBtn').addEventListener('click', openDrawer);
+fabCart.addEventListener('click', openDrawer);
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+document.getElementById('toCheckout').addEventListener('click', () => showStep('checkout'));
+document.getElementById('backToCart').addEventListener('click', () => showStep('cart'));
+
+function renderCartItems() {
+  const ids = Object.keys(cart);
+  cartEmpty.style.display = ids.length ? 'none' : '';
+  cartFoot.hidden = ids.length === 0;
+
+  cartItemsEl.innerHTML = ids
+    .map((id) => {
+      const p = PRODUCTS[id];
+      const qty = cart[id];
+      return `
+      <div class="cart-item">
+        ${p.img
+          ? `<img class="cart-item__img" src="assets/menu/${p.img}" alt="">`
+          : `<span class="cart-item__img cart-item__img--emoji">${p.emoji}</span>`}
+        <div>
+          <div class="cart-item__name">${p.name}</div>
+          <div class="cart-item__price">${fmt(p.price * qty)}</div>
+        </div>
+        <div class="cart-item__right">
+          <div class="stepper">
+            <button data-dec="${id}">−</button>
+            <span>${qty}</span>
+            <button data-inc="${id}">+</button>
+          </div>
+          <button class="cart-item__remove" data-remove="${id}">убрать</button>
+        </div>
+      </div>`;
+    })
+    .join('');
+
+  cartTotalEl.textContent = fmt(cartTotal());
+  checkoutTotalEl.textContent = fmt(cartTotal());
 }
 
-/* ── Меню: табы и рендер ── */
-
-const tabsWrap = document.getElementById('menuTabs');
-const grid = document.getElementById('menuGrid');
-
-const renderTabs = () => {
-  tabsWrap.innerHTML = Object.entries(MENU)
-    .map(([key, cat], i) =>
-      `<button class="menu-tab${i === 0 ? ' is-active' : ''}" role="tab" data-cat="${key}">${cat.emoji} ${cat.label}</button>`
-    )
-    .join('');
-};
-
-const renderItems = (key) => {
-  const cat = MENU[key];
-  grid.innerHTML = cat.items
-    .map(
-      (item, i) => `
-      <article class="menu-item${item.img ? ' menu-item--photo' : ''}" style="--i:${i}">
-        ${item.img
-          ? `<div class="menu-item__media">
-               <img src="assets/menu/${item.img}" alt="${item.name}" loading="lazy" width="400" height="300">
-               <span class="menu-item__price menu-item__price--tag">${fmtPrice(item.price)}</span>
-             </div>`
-          : ''}
-        <div class="menu-item__body">
-          <div class="menu-item__top">
-            ${item.img ? '' : `<span class="menu-item__emoji">${cat.emoji}</span>`}
-            <span class="menu-item__name">${item.name}</span>
-            ${item.img ? '' : `<span class="menu-item__dots"></span><span class="menu-item__price">${fmtPrice(item.price)}</span>`}
-          </div>
-          ${item.desc ? `<p class="menu-item__desc">${item.desc}</p>` : ''}
-          <span class="menu-item__weight">${item.weight}</span>
-        </div>
-      </article>`
-    )
-    .join('');
-  if (window.__bindTilt) grid.querySelectorAll('.menu-item').forEach(window.__bindTilt);
-};
-
-renderTabs();
-renderItems('breakfast');
-
-tabsWrap.addEventListener('click', (e) => {
-  const btn = e.target.closest('.menu-tab');
-  if (!btn) return;
-  tabsWrap.querySelectorAll('.menu-tab').forEach((b) => b.classList.remove('is-active'));
-  btn.classList.add('is-active');
-  renderItems(btn.dataset.cat);
+document.addEventListener('click', (e) => {
+  const rm = e.target.closest('[data-remove]');
+  if (rm) setQty(rm.dataset.remove, 0);
 });
 
-/* ── Появление при скролле ── */
+/* ═══════════ ОФОРМЛЕНИЕ ЗАКАЗА ═══════════ */
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-);
+let mode = 'delivery';
+const addressField = document.getElementById('addressField');
 
-document.querySelectorAll('.reveal').forEach((el, i) => {
-  el.style.setProperty('--rd', `${(i % 4) * 0.08}s`);
-  revealObserver.observe(el);
+stepCheckout.querySelectorAll('.segmented__opt').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    mode = btn.dataset.mode;
+    stepCheckout.querySelectorAll('.segmented__opt').forEach((b) => b.classList.toggle('is-active', b === btn));
+    addressField.style.display = mode === 'delivery' ? '' : 'none';
+  });
 });
 
-/* ── Счётчики в карточках ── */
+stepCheckout.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('fName');
+  const phone = document.getElementById('fPhone');
+  const address = document.getElementById('fAddress');
+  const comment = document.getElementById('fComment').value.trim();
 
-const countObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const target = parseInt(el.dataset.count, 10);
-      const suffix = el.dataset.suffix || '';
-      const start = performance.now();
-      const dur = 1400;
-      const tick = (now) => {
-        const p = Math.min((now - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      countObserver.unobserve(el);
-    });
-  },
-  { threshold: 0.6 }
-);
+  let valid = true;
+  [name, phone].forEach((f) => {
+    const ok = f.value.trim().length > 1;
+    f.classList.toggle('is-invalid', !ok);
+    if (!ok) valid = false;
+  });
+  if (mode === 'delivery') {
+    const ok = address.value.trim().length > 3;
+    address.classList.toggle('is-invalid', !ok);
+    if (!ok) valid = false;
+  }
+  if (!valid) { toast('Заполните обязательные поля'); return; }
+  if (cartCount() === 0) { toast('Корзина пуста'); return; }
 
-document.querySelectorAll('[data-count]').forEach((el) => countObserver.observe(el));
+  const lines = Object.keys(cart).map((id) => {
+    const p = PRODUCTS[id];
+    return `• ${p.name} × ${cart[id]} — ${fmt(p.price * cart[id])}`;
+  });
 
-/* ── Полосы рейтинга ── */
+  const text = [
+    '🛒 Заказ — Founders Cafe',
+    '',
+    ...lines,
+    '',
+    `💰 Итого: ${fmt(cartTotal())}`,
+    `👤 ${name.value.trim()}`,
+    `📞 ${phone.value.trim()}`,
+    mode === 'delivery' ? `🛵 Доставка: ${address.value.trim()}` : '🏃 Самовывоз (Навои, 11А)',
+    comment ? `💬 ${comment}` : '',
+  ].filter(Boolean).join('\n');
 
-const barObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const fill = entry.target;
-      fill.style.width = fill.dataset.width + '%';
-      barObserver.unobserve(fill);
-    });
-  },
-  { threshold: 0.5 }
-);
+  if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+  window.open(`https://t.me/share/url?url=${encodeURIComponent('https://yandex.uz/maps/org/founders_cafe/14984117749/')}&text=${encodeURIComponent(text)}`, '_blank');
+  toast('Заказ сформирован и скопирован ✓');
+});
 
-document.querySelectorAll('.bar__fill').forEach((el) => barObserver.observe(el));
+/* ═══════════ TOAST ═══════════ */
 
-/* ── Бегущая строка: дублируем контент для бесшовности ── */
+const toastEl = document.getElementById('toast');
+let toastTimer = null;
 
-const track = document.getElementById('marqueeTrack');
-track.innerHTML += track.innerHTML;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toastEl.hidden = true; }, 2200);
+}
 
-/* ── Год в футере ── */
+/* ═══════════ INIT ═══════════ */
 
 document.getElementById('year').textContent = new Date().getFullYear();
+syncUI();
