@@ -695,6 +695,52 @@ ul { list-style: none; }
   box-shadow: 0 24px 50px -22px rgba(0, 0, 0, .85), 0 0 34px -18px rgba(217, 160, 91, .35);
 }
 
+/* карточка с фотографией блюда */
+.menu-item--photo { padding: 0; overflow: hidden; }
+.menu-item--photo .menu-item__body {
+  padding: 16px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-item__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.menu-item__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s var(--ease), filter .7s;
+}
+.menu-item--photo:hover .menu-item__media img {
+  transform: scale(1.07);
+  filter: brightness(1.06);
+}
+.menu-item__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(19, 14, 10, .55), transparent 45%);
+  pointer-events: none;
+}
+
+.menu-item__price--tag {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  background: rgba(19, 14, 10, .72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .4em .95em;
+  font-size: .92rem;
+}
+
 .menu-item__top { display: flex; align-items: baseline; gap: 12px; }
 .menu-item__emoji { font-size: 1.35rem; transform: translateZ(26px); }
 .menu-item__name {
@@ -746,10 +792,34 @@ ul { list-style: none; }
   border-color: rgba(217, 160, 91, .5);
   box-shadow: 0 36px 70px -28px rgba(0, 0, 0, .9), 0 0 60px -24px rgba(217, 160, 91, .4);
 }
+.combo-card__media {
+  margin: -40px -34px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.combo-card__media img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  transition: transform .7s var(--ease);
+}
+.combo-card:hover .combo-card__media img { transform: scale(1.06); }
+.combo-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #1d150d 2%, rgba(29, 21, 13, .25) 45%, transparent 70%);
+  pointer-events: none;
+}
+
 .combo-card__badge {
   position: absolute;
   top: 20px;
   right: 20px;
+  z-index: 2;
+  background: rgba(19, 14, 10, .6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .16em;
@@ -761,6 +831,7 @@ ul { list-style: none; }
 }
 .combo-card__badge--gold { background: var(--grad); color: #221304; border-color: transparent; }
 .combo-card__emoji { font-size: 2.6rem; display: block; margin-bottom: 16px; transform: translateZ(36px); }
+.combo-card__media ~ .combo-card__emoji { display: none; }
 .combo-card h3 {
   font-family: var(--font-serif);
   font-size: 1.7rem;
