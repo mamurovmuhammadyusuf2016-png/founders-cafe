@@ -4,6 +4,14 @@
 
 'use strict';
 
+/* ── Telegram-бот для приёма заказов ──
+   Заказы получают все, кто нажал Start у @FoundersCafeeBot
+   (владелец сознательно публикует токен: бот служебный). */
+const BOT_TOKEN = '8869062841:AAElNN9CqplUq-aYCwrw-YC2TLN4ANqxNbs';
+const BOT_USERNAME = 'FoundersCafeeBot';
+/* сюда можно вписать постоянные chat_id получателей, напр. [123456789] */
+const EXTRA_CHAT_IDS = [];
+
 /* ── Каталог (Яндекс Еда) ── */
 
 const MENU = {
@@ -338,11 +346,13 @@ const closeDrawer = () => {
   backdrop.hidden = true;
   document.body.style.overflow = '';
 };
+const stepDone = document.getElementById('stepDone');
+
 const showStep = (step) => {
-  const checkout = step === 'checkout';
-  stepCart.hidden = checkout;
-  stepCheckout.hidden = !checkout;
-  drawerTitle.textContent = checkout ? 'Оформление' : 'Корзина';
+  stepCart.hidden = step !== 'cart';
+  stepCheckout.hidden = step !== 'checkout';
+  stepDone.hidden = step !== 'done';
+  drawerTitle.textContent = { cart: 'Корзина', checkout: 'Оформление', done: 'Готово' }[step];
 };
 
 document.getElementById('cartBtn').addEventListener('click', openDrawer);
@@ -405,7 +415,45 @@ stepCheckout.querySelectorAll('.segmented__opt').forEach((btn) => {
   });
 });
 
-stepCheckout.addEventListener('submit', (e) => {
+/* ── отправка в Telegram-бота ── */
+
+const tg = async (method, params = {}, timeoutMs = 10000) => {
+  const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+  return res.json();
+};
+
+/* получатели заказов: все, кто писал боту (getUpdates хранит 24 ч),
+   + постоянный список + кэш этого устройства */
+async function collectRecipients() {
+  const ids = new Set(EXTRA_CHAT_IDS);
+  try {
+    JSON.parse(localStorage.getItem('fc_chats') || '[]').forEach((id) => ids.add(id));
+  } catch (e) { /* игнорируем битый кэш */ }
+  try {
+    const data = await tg('getUpdates', { limit: 100, allowed_updates: ['message', 'my_chat_member'] });
+    if (data.ok) {
+      data.result.forEach((u) => {
+        const chat = u.message?.chat || u.my_chat_member?.chat;
+        if (!chat) return;
+        if (u.my_chat_member && ['left', 'kicked'].includes(u.my_chat_member.new_chat_member?.status)) {
+          ids.delete(chat.id);
+          return;
+        }
+        ids.add(chat.id);
+      });
+    }
+  } catch (e) { /* сеть недоступна — используем кэш */ }
+  const list = [...ids];
+  if (list.length) localStorage.setItem('fc_chats', JSON.stringify(list));
+  return list;
+}
+
+stepCheckout.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('fName');
   const phone = document.getElementById('fPhone');
@@ -431,8 +479,9 @@ stepCheckout.addEventListener('submit', (e) => {
     return `• ${p.name} × ${cart[id]} — ${fmt(p.price * cart[id])}`;
   });
 
+  const orderNo = Date.now().toString(36).slice(-5).toUpperCase();
   const text = [
-    '🛒 Заказ — Founders Cafe',
+    `🛒 Новый заказ #${orderNo} — Founders Cafe`,
     '',
     ...lines,
     '',
@@ -443,10 +492,38 @@ stepCheckout.addEventListener('submit', (e) => {
     comment ? `💬 ${comment}` : '',
   ].filter(Boolean).join('\n');
 
-  if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
-  window.open(`https://t.me/share/url?url=${encodeURIComponent('https://yandex.uz/maps/org/founders_cafe/14984117749/')}&text=${encodeURIComponent(text)}`, '_blank');
-  toast('Заказ сформирован и скопирован ✓');
+  const submitBtn = document.getElementById('submitOrder');
+  submitBtn.classList.add('is-loading');
+  submitBtn.textContent = 'Отправляем…';
+
+  const recipients = await collectRecipients();
+  let delivered = 0;
+  if (recipients.length) {
+    const results = await Promise.allSettled(
+      recipients.map((chatId) => tg('sendMessage', { chat_id: chatId, text }))
+    );
+    delivered = results.filter((r) => r.status === 'fulfilled' && r.value.ok).length;
+  }
+
+  submitBtn.classList.remove('is-loading');
+  submitBtn.textContent = 'Оформить заказ';
+
+  if (delivered > 0) {
+    cart = {};
+    saveCart();
+    syncUI();
+    document.getElementById('doneText').textContent =
+      `Заказ #${orderNo} уже у кафе. Мы перезвоним на ${phone.value.trim()} для подтверждения.`;
+    showStep('done');
+  } else {
+    /* бот ещё никем не открыт или сеть недоступна — резервный путь */
+    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+    window.open(`https://t.me/${BOT_USERNAME}?text=`, '_blank');
+    toast('Не удалось отправить автоматически — текст заказа скопирован, отправьте его в чат или позвоните');
+  }
 });
+
+document.getElementById('newOrder').addEventListener('click', closeDrawer);
 
 /* ═══════════ TOAST ═══════════ */
 

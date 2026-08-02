@@ -653,6 +653,24 @@ input { font-family: inherit; }
 
 .drawer__hint { font-size: .78rem; color: var(--dim); line-height: 1.5; text-align: center; }
 
+.drawer__done {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding: 40px 10px;
+}
+.drawer__done-icon { font-size: 3.2rem; animation: doneIn .5s var(--ease); }
+@keyframes doneIn { from { transform: scale(.4); opacity: 0; } }
+.drawer__done h3 { font-family: var(--font-serif); font-size: 1.5rem; }
+.drawer__done p { color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.drawer__done .btn { margin-top: 10px; }
+
+.btn.is-loading { opacity: .6; pointer-events: none; }
+
 /* ═══════════ TOAST ═══════════ */
 
 .toast {
